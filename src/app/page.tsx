@@ -305,14 +305,14 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-gray-950 text-gray-50 font-sans flex flex-col overflow-hidden relative">
+    <div className="min-h-[100dvh] bg-gray-950 text-gray-50 font-sans selection:bg-yellow-500/30 flex flex-col overflow-x-hidden relative">
 
       {/* 載入畫面 */}
       {appState === 'loading' && (
         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-gray-900">
           <MapPin className="w-12 h-12 text-yellow-500 animate-bounce mb-4" />
           <h2 className="text-xl font-bold tracking-wider animate-pulse">正在準備美食輪盤...</h2>
-          <p className="text-sm text-gray-400 mt-2">載入食物類別與廣告版位中</p>
+          <p className="text-sm text-gray-400 mt-2">為您終結選擇困難</p>
         </div>
       )}
 
@@ -337,12 +337,12 @@ export default function HomePage() {
           )}
 
           {/* 中間輪盤 */}
-          <div className="flex-1 flex flex-col max-w-md mx-auto w-full relative">
+          <div className="flex-1 flex flex-col max-w-md mx-auto w-full relative pb-10">
             <header className="py-6 px-4 text-center shrink-0">
               <h1 className="text-3xl font-extrabold bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 bg-clip-text text-transparent drop-shadow-sm">
                 What to eat now?
               </h1>
-              <p className="text-gray-400 mt-2 text-sm font-medium">終結選擇困難，讓命運決定下一餐</p>
+              <p className="text-gray-400 mt-2 text-sm font-medium">每天都在煩惱吃什麼？讓命運幫你決定</p>
             </header>
 
             <main className="flex-1 flex flex-col items-center justify-center p-4 relative min-h-[400px]">
@@ -392,6 +392,50 @@ export default function HomePage() {
             </div>
           )}
         </div>
+
+        {/* SEO 優化文章區塊：幫助通過 Google AdSense 審核 */}
+        <section className="w-full bg-gray-900/30 border-t border-gray-800 py-12 px-6">
+          <article className="max-w-3xl mx-auto space-y-8 text-gray-400 text-sm md:text-base leading-relaxed">
+            <div>
+              <h2 className="text-xl font-bold text-gray-200 mb-3 flex items-center gap-2">
+                <Utensils className="w-5 h-5 text-yellow-500" /> 每天都在煩惱「今天吃什麼」？
+              </h2>
+              <p>
+                在快節奏的現代生活中，「午餐吃什麼」、「晚餐吃什麼」或是「深夜宵夜該吃哪一家」，幾乎成了每個人每天必經的靈魂拷問。當打開外送平台或地圖時，過多的選擇往往讓我們陷入「選擇困難症」（Paradox of Choice），導致浪費大量時間在滑手機看餐廳評論，最後卻還是無奈地選擇了同一家便當。為了解決這個全球共有的日常痛點，我們開發了「What to eat now? 美食輪盤」。
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-gray-200 mb-3 flex items-center gap-2">
+                <RotateCw className="w-5 h-5 text-yellow-500" /> 讓命運輪盤為你做決定！
+              </h2>
+              <p>
+                What to eat now? 是一個專為選擇困難症患者打造的互動式隨機美食抽籤工具。無論您是正在辦公室揪團訂下午茶的上班族、不知道約會該吃什麼的情侶，還是深夜肚子餓的大學生，只需輕點「立即旋轉」按鈕，我們精心設計的物理動態輪盤就會為您隨機抽出下一個美食提案。
+              </p>
+              <p className="mt-2">
+                我們的食物資料庫涵蓋了十二種最受歡迎的料理類型，包含：熱呼呼的火鍋、大口吃肉的牛排、清爽無負擔的日式料理、浪漫精緻的西餐、省錢又健康的自己煮生鮮超市，甚至是罪惡感滿滿的速食與香氣四溢的燒烤。總有一個選項能完美命中您的胃口！
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-gray-200 mb-3 flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-yellow-500" /> 結合地圖導航，一鍵尋找附近美食
+              </h2>
+              <p>
+                抽中想吃的食物類型後該去哪裡買？別擔心！當美食輪盤停止轉動並揭曉結果時，系統會自動為您生成專屬的 Google Maps 深度連結。只要點擊畫面上的「搜尋附近美食」按鈕，就能一鍵開啟您的地圖應用程式，精準定位並列出您所在位置附近符合該食物類型的優質餐廳。從產生靈感到開始出發導航，整個決策過程不到 5 秒鐘，為您打造最流暢、無摩擦的美食決策體驗。
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-bold text-gray-200 mb-3 flex items-center gap-2">
+                <Star className="w-5 h-5 text-yellow-500" /> 為什麼你需要這個工具？
+              </h2>
+              <p>
+                心理學研究指出，減少日常瑣碎的決策能有效保留大腦的認知能量，讓您專注在工作與生活上更重要的事情。把「吃什麼」這個煩人的問題交給我們的美食輪盤，您只需要負責好好享受美食帶來的快樂！現在就把本站加入瀏覽器我的最愛（書籤），讓每一次的用餐時間都充滿未知的驚喜與期待吧！
+              </p>
+            </div>
+          </article>
+        </section>
 
         {/* 下方橫幅廣告 */}
         {showBottomAd && (
