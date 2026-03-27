@@ -30,6 +30,11 @@ export default function RootLayout({
     <html lang="zh-Hant" suppressHydrationWarning>
       <head>
         <ColorSchemeScript defaultColorScheme="auto" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6782349437061188"
+          crossOrigin="anonymous"
+        />
       </head>
       <body>
         <MantineProvider theme={theme} defaultColorScheme="auto">
