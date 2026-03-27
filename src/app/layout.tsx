@@ -5,9 +5,9 @@ import "@mantine/core/styles.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "What to eat now?",
+  title: "What to eat tonight?",
   description:
-    "Spin the roulette wheel and let fate decide where to eat! A gamified dining decision helper.",
+    "Spin the roulette wheel and let fate decide what to eat tonight! A gamified dining decision helper.",
   keywords: ["restaurant", "roulette", "food", "dining", "decision"],
 };
 
