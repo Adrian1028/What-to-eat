@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import Link from 'next/link';
 import { MapPin, Navigation, RotateCw, Utensils, Star, Info, X, Globe } from 'lucide-react';
 
 // --- 多語系類型定義 ---
@@ -48,6 +49,11 @@ const UI_TEXT = {
     seoTitle4: "為什麼你需要這個工具？",
     seoBody4: "心理學研究指出，減少日常瑣碎的決策能有效保留大腦的認知能量，讓您專注在工作與生活上更重要的事情。把「吃什麼」這個煩人的問題交給我們的今晚吃什麼輪盤，您只需要負責好好享受美食帶來的快樂！現在就把本站加入瀏覽器我的最愛（書籤），讓每一次的用餐時間都充滿未知的驚喜與期待吧！",
     mapPrefix: "附近 ",
+    footerAbout: "關於我們",
+    footerContact: "聯絡我們",
+    footerPrivacy: "隱私權政策",
+    footerRights: "版權所有",
+    footerDesc: "專為選擇困難症患者打造的美食決策工具",
   },
   en: {
     loading: "Preparing What to eat tonight?...",
@@ -73,6 +79,11 @@ const UI_TEXT = {
     seoTitle4: "Why do you need this tool?",
     seoBody4: "Psychology research shows that reducing trivial daily decisions helps preserve cognitive energy, letting you focus on what truly matters in work and life. Hand over the annoying \"what to eat\" question to our food roulette — all you need to do is enjoy the meal! Bookmark this site now and let every mealtime be filled with exciting surprises!",
     mapPrefix: "",
+    footerAbout: "About Us",
+    footerContact: "Contact Us",
+    footerPrivacy: "Privacy Policy",
+    footerRights: "All rights reserved",
+    footerDesc: "A food decision tool built for the indecisive",
   },
 };
 
@@ -538,6 +549,31 @@ export default function HomePage() {
             <AdSlot type="banner" placement={adPlacement('bottom')} onClose={() => setShowBottomAd(false)} locale={locale} />
           </div>
         )}
+
+        {/* 頁尾導航 */}
+        <footer className="w-full bg-gray-900 border-t border-gray-800 py-8 px-6">
+          <div className="max-w-3xl mx-auto flex flex-col items-center gap-6">
+            <h2 className="text-lg font-bold bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
+              What to eat tonight?
+            </h2>
+            <p className="text-gray-500 text-sm text-center">{t.footerDesc}</p>
+            <nav className="flex flex-wrap justify-center gap-6 text-sm">
+              <Link href="/about" className="text-gray-400 hover:text-yellow-400 transition-colors">
+                {t.footerAbout}
+              </Link>
+              <Link href="/contact" className="text-gray-400 hover:text-yellow-400 transition-colors">
+                {t.footerContact}
+              </Link>
+              <Link href="/privacy" className="text-gray-400 hover:text-yellow-400 transition-colors">
+                {t.footerPrivacy}
+              </Link>
+            </nav>
+            <div className="w-16 h-px bg-gray-800" />
+            <p className="text-gray-600 text-xs">
+              &copy; {new Date().getFullYear()} What to eat tonight? {t.footerRights}.
+            </p>
+          </div>
+        </footer>
       </div>
 
       {/* 結果彈窗 */}
