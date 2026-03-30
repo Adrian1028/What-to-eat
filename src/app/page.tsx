@@ -21,6 +21,14 @@ const FOOD_CATEGORIES = [
   { id: 10, name: { zh: "義式料理", en: "Italian" }, tag: { zh: "披薩義大利麵", en: "Pizza & Pasta" }, desc: { zh: "濃郁起司與番茄的饗宴", en: "Cheese, tomato & carb heaven" }, mapQuery: { zh: "義式餐廳", en: "Italian restaurant" }, color: "#0EA5E9" },
   { id: 11, name: { zh: "早午餐", en: "Brunch" }, tag: { zh: "慵懶時光", en: "Lazy Morning" }, desc: { zh: "拼盤、漢堡與咖啡", en: "Eggs, toast & good coffee" }, mapQuery: { zh: "早午餐", en: "brunch" }, color: "#84CC16" },
   { id: 12, name: { zh: "燒肉", en: "BBQ" }, tag: { zh: "炭火香氣", en: "Charcoal Grilled" }, desc: { zh: "滋滋作響的烤肉派對", en: "Sizzling meat party!" }, mapQuery: { zh: "燒肉", en: "BBQ restaurant" }, color: "#B91C1C" },
+  { id: 13, name: { zh: "越南料理", en: "Vietnamese" }, tag: { zh: "清爽湯頭", en: "Fresh & Light" }, desc: { zh: "河粉、春捲與法國麵包", en: "Pho, spring rolls & banh mi" }, mapQuery: { zh: "越南料理", en: "Vietnamese restaurant" }, color: "#059669" },
+  { id: 14, name: { zh: "印度料理", en: "Indian" }, tag: { zh: "香料王國", en: "Spice Kingdom" }, desc: { zh: "咖哩、烤餅與奶茶", en: "Curry, naan & chai" }, mapQuery: { zh: "印度料理", en: "Indian restaurant" }, color: "#D97706" },
+  { id: 15, name: { zh: "港式飲茶", en: "Dim Sum" }, tag: { zh: "一盅兩件", en: "Tea & Bites" }, desc: { zh: "蝦餃、燒賣與叉燒包", en: "Dumplings, siu mai & BBQ buns" }, mapQuery: { zh: "港式飲茶", en: "dim sum" }, color: "#DC2626" },
+  { id: 16, name: { zh: "拉麵", en: "Ramen" }, tag: { zh: "濃郁湯底", en: "Rich Broth" }, desc: { zh: "豚骨、味噌或醬油湯頭", en: "Tonkotsu, miso or shoyu" }, mapQuery: { zh: "拉麵", en: "ramen" }, color: "#7C3AED" },
+  { id: 17, name: { zh: "墨西哥料理", en: "Mexican" }, tag: { zh: "辣味派對", en: "Fiesta Time" }, desc: { zh: "塔可、捲餅與莎莎醬", en: "Tacos, burritos & salsa" }, mapQuery: { zh: "墨西哥料理", en: "Mexican restaurant" }, color: "#EA580C" },
+  { id: 18, name: { zh: "甜點下午茶", en: "Desserts" }, tag: { zh: "療癒甜食", en: "Sweet Treat" }, desc: { zh: "蛋糕、鬆餅與手搖飲", en: "Cake, waffles & bubble tea" }, mapQuery: { zh: "甜點", en: "dessert cafe" }, color: "#DB2777" },
+  { id: 19, name: { zh: "素食", en: "Vegetarian" }, tag: { zh: "健康蔬食", en: "Plant Based" }, desc: { zh: "清新蔬食也能很滿足", en: "Healthy, green & satisfying" }, mapQuery: { zh: "素食餐廳", en: "vegetarian restaurant" }, color: "#16A34A" },
+  { id: 20, name: { zh: "海鮮", en: "Seafood" }, tag: { zh: "鮮甜海味", en: "Ocean Fresh" }, desc: { zh: "蝦蟹魚貝鮮味滿載", en: "Shrimp, crab & fresh catches" }, mapQuery: { zh: "海鮮餐廳", en: "seafood restaurant" }, color: "#0284C7" },
 ];
 
 // --- UI 翻譯字典 ---
@@ -241,7 +249,7 @@ export default function HomePage() {
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    const size = 320;
+    const size = 420;
     const radius = size / 2;
     const dpr = window.devicePixelRatio || 1;
     const currentLocale = localeRef.current;
@@ -277,7 +285,7 @@ export default function HomePage() {
       ctx.textAlign = "right";
       ctx.textBaseline = "middle";
       ctx.fillStyle = "white";
-      ctx.font = currentLocale === 'en' ? "bold 13px 'Noto Sans', sans-serif" : "bold 16px 'Noto Sans', sans-serif";
+      ctx.font = currentLocale === 'en' ? "bold 12px 'Noto Sans', sans-serif" : "bold 14px 'Noto Sans', sans-serif";
       const name = item.name[currentLocale];
       const displayName = name.length > 9 ? name.substring(0, 8) + '…' : name;
       ctx.fillText(displayName, radius - 24, 0);
