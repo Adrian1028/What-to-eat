@@ -96,7 +96,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-gray-200 mb-3">9. Contact Us</h2>
             <p>
-              If you have any questions about this Privacy Policy, please <Link href="/contact" className="text-yellow-400 hover:underline">contact us</Link> or email us at <strong>fcsfcs007@gmail.com</strong>.
+              If you have any questions about this Privacy Policy, please email us at <strong>fcsfcs007@gmail.com</strong>.
             </p>
           </section>
         </article>
@@ -104,8 +104,8 @@ export default function PrivacyPage() {
 
       <footer className="w-full bg-gray-900 border-t border-gray-800 py-6 px-6">
         <div className="max-w-3xl mx-auto flex flex-wrap justify-center gap-6 text-sm">
+          <Link href="/tips" className="text-gray-400 hover:text-yellow-400 transition-colors">Food Tips</Link>
           <Link href="/about" className="text-gray-400 hover:text-yellow-400 transition-colors">About Us</Link>
-          <Link href="/contact" className="text-gray-400 hover:text-yellow-400 transition-colors">Contact Us</Link>
           <Link href="/privacy" className="text-yellow-400 font-medium">Privacy Policy</Link>
         </div>
         <p className="text-gray-600 text-xs text-center mt-4">&copy; {new Date().getFullYear()} What to eat tonight? All rights reserved.</p>

@@ -385,7 +385,6 @@ export default function HomePage() {
           <div className="flex items-center gap-4 sm:gap-6">
             <Link href="/tips" className="hidden sm:block text-sm text-gray-400 hover:text-yellow-400 transition-colors">{t.navTips}</Link>
             <Link href="/about" className="hidden sm:block text-sm text-gray-400 hover:text-yellow-400 transition-colors">{t.navAbout}</Link>
-            <Link href="/contact" className="hidden sm:block text-sm text-gray-400 hover:text-yellow-400 transition-colors">{t.navContact}</Link>
             <button
               onClick={() => setLocale(prev => prev === 'zh' ? 'en' : 'zh')}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-600 text-sm text-gray-300 hover:text-white transition-all"
@@ -577,7 +576,6 @@ export default function HomePage() {
             <nav className="flex flex-wrap justify-center gap-6 text-sm">
               <Link href="/tips" className="text-gray-400 hover:text-yellow-400 transition-colors">{t.footerTips}</Link>
               <Link href="/about" className="text-gray-400 hover:text-yellow-400 transition-colors">{t.footerAbout}</Link>
-              <Link href="/contact" className="text-gray-400 hover:text-yellow-400 transition-colors">{t.footerContact}</Link>
               <Link href="/privacy" className="text-gray-400 hover:text-yellow-400 transition-colors">{t.footerPrivacy}</Link>
             </nav>
             <div className="w-16 h-px bg-gray-800" />
