@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { MapPin, Navigation, RotateCw, Utensils, Star, Info, X, Globe } from 'lucide-react';
+import { MapPin, Navigation, RotateCw, Utensils, Star, Globe, Lightbulb, HelpCircle, BookOpen, ChefHat, Clock, Users } from 'lucide-react';
 
 // --- 多語系類型定義 ---
 type Locale = 'zh' | 'en';
@@ -42,24 +42,48 @@ const UI_TEXT = {
     resultTitle: "命運的選擇是",
     searchNearby: "搜尋附近",
     tryAgain: "不滿意？再轉一次",
-    adLabel: "廣告",
-    adSlot: "廣告版位",
-    adBanner: "Google AdSense 響應式橫幅",
-    adVertical: "垂直摩天大樓廣告",
-    adBox: "贊助商推薦 (外送優惠)",
+    navHome: "首頁",
+    navTips: "美食秘笈",
+    navAbout: "關於我們",
+    navContact: "聯絡我們",
+    // SEO 文章
     seoTitle1: "每天都在煩惱「今天吃什麼」？",
     seoBody1: "在快節奏的現代生活中，「午餐吃什麼」、「晚餐吃什麼」或是「深夜宵夜該吃哪一家」，幾乎成了每個人每天必經的靈魂拷問。當打開外送平台或地圖時，過多的選擇往往讓我們陷入「選擇困難症」（Paradox of Choice），導致浪費大量時間在滑手機看餐廳評論，最後卻還是無奈地選擇了同一家便當。為了解決這個全球共有的日常痛點，我們開發了「What to eat tonight? 今晚吃什麼」。",
     seoTitle2: "讓命運輪盤為你做決定！",
     seoBody2a: "What to eat tonight? 是一個專為選擇困難症患者打造的互動式隨機美食抽籤工具。無論您是正在辦公室揪團訂下午茶的上班族、不知道約會該吃什麼的情侶，還是深夜肚子餓的大學生，只需輕點「立即旋轉」按鈕，我們精心設計的物理動態輪盤就會為您隨機抽出下一個美食提案。",
-    seoBody2b: "我們的食物資料庫涵蓋了十二種最受歡迎的料理類型，包含：熱呼呼的火鍋、大口吃肉的牛排、清爽無負擔的日式料理、浪漫精緻的西餐、省錢又健康的自己煮生鮮超市，甚至是罪惡感滿滿的速食與香氣四溢的燒烤。總有一個選項能完美命中您的胃口！",
+    seoBody2b: "我們的食物資料庫涵蓋了二十種最受歡迎的料理類型，包含：熱呼呼的火鍋、大口吃肉的牛排、清爽無負擔的日式料理、浪漫精緻的西餐、省錢又健康的自己煮、異國風味的泰式與越南料理，甚至是罪惡感滿滿的速食與香氣四溢的燒烤。總有一個選項能完美命中您的胃口！",
     seoTitle3: "結合地圖導航，一鍵尋找附近美食",
     seoBody3: "抽中想吃的食物類型後該去哪裡買？別擔心！當美食輪盤停止轉動並揭曉結果時，系統會自動為您生成專屬的 Google Maps 深度連結。只要點擊畫面上的「搜尋附近美食」按鈕，就能一鍵開啟您的地圖應用程式，精準定位並列出您所在位置附近符合該食物類型的優質餐廳。從產生靈感到開始出發導航，整個決策過程不到 5 秒鐘，為您打造最流暢、無摩擦的美食決策體驗。",
     seoTitle4: "為什麼你需要這個工具？",
     seoBody4: "心理學研究指出，減少日常瑣碎的決策能有效保留大腦的認知能量，讓您專注在工作與生活上更重要的事情。把「吃什麼」這個煩人的問題交給我們的今晚吃什麼輪盤，您只需要負責好好享受美食帶來的快樂！現在就把本站加入瀏覽器我的最愛（書籤），讓每一次的用餐時間都充滿未知的驚喜與期待吧！",
+    // 使用指南
+    guideTitle: "如何使用美食輪盤？",
+    guideSteps: [
+      { title: "點擊「立即旋轉」", body: "按下金色按鈕，輪盤就會開始旋轉。每次結果都是隨機的，完全由物理模擬的減速來決定。" },
+      { title: "等待命運揭曉", body: "輪盤會伴隨著滴答聲逐漸減速，最終停在某一個食物類型上。過程中您會聽到真實的音效反饋。" },
+      { title: "前往附近餐廳", body: "結果揭曉後，點擊「搜尋附近」按鈕，Google Maps 會自動幫您找到附近最好的該類型餐廳。" },
+    ],
+    // 美食小知識
+    tipsTitle: "美食小知識",
+    tips: [
+      { icon: "chef", title: "嘗試新口味", body: "研究顯示，嘗試新食物能刺激大腦釋放多巴胺，帶來更多快樂感。下次輪盤轉到不熟悉的料理時，勇敢嘗試吧！" },
+      { icon: "clock", title: "用餐的最佳時間", body: "營養學家建議午餐在 12:00-13:00 之間享用，晚餐則在 18:00-19:30 之間。規律的用餐時間有助於消化與代謝。" },
+      { icon: "users", title: "聚餐的藝術", body: "揪朋友吃飯卻永遠無法達成共識？讓每個人各轉一次輪盤，出現最多次的食物類型就是今天的答案！" },
+    ],
+    // FAQ
+    faqTitle: "常見問題",
+    faqs: [
+      { q: "使用這個工具需要付費嗎？", a: "完全免費！What to eat tonight? 是一個開源的免費工具，您可以無限次使用，不需要註冊或登入。" },
+      { q: "輪盤的結果是真正隨機的嗎？", a: "是的。我們使用 JavaScript 的隨機數生成器搭配物理模擬的摩擦力減速，每次旋轉的結果都是不可預測的。" },
+      { q: "可以自訂輪盤上的食物類型嗎？", a: "目前我們提供了 20 種精選的料理類型。自訂輪盤功能正在開發中，敬請期待未來版本！" },
+      { q: "為什麼點擊搜尋附近後看不到餐廳？", a: "搜尋結果由 Google Maps 提供，取決於您的所在位置。如果您在較偏遠的地區，某些料理類型可能附近沒有對應的餐廳。" },
+      { q: "這個網站會收集我的個人資料嗎？", a: "不會。我們不需要您註冊帳號，也不會儲存您的位置或個人資訊。詳情請參閱我們的隱私權政策。" },
+    ],
     mapPrefix: "附近 ",
     footerAbout: "關於我們",
     footerContact: "聯絡我們",
     footerPrivacy: "隱私權政策",
+    footerTips: "美食秘笈",
     footerRights: "版權所有",
     footerDesc: "專為選擇困難症患者打造的美食決策工具",
   },
@@ -72,93 +96,47 @@ const UI_TEXT = {
     resultTitle: "Fate has chosen",
     searchNearby: "Search nearby ",
     tryAgain: "Not feeling it? Spin again!",
-    adLabel: "Ad",
-    adSlot: "Ad Slot",
-    adBanner: "Google AdSense Responsive Banner",
-    adVertical: "Vertical Skyscraper Ad",
-    adBox: "Sponsored (Delivery Deals)",
+    navHome: "Home",
+    navTips: "Food Tips",
+    navAbout: "About",
+    navContact: "Contact",
     seoTitle1: 'Struggling with "What should I eat today?"',
     seoBody1: "In our fast-paced modern life, deciding what to have for lunch, dinner, or a late-night snack has become a daily existential crisis. With so many options on delivery apps and maps, we often fall into the \"Paradox of Choice\" — spending ages scrolling through restaurant reviews only to end up picking the same old place. To solve this universal daily pain point, we created \"What to eat tonight?\".",
     seoTitle2: "Let the wheel of fate decide for you!",
     seoBody2a: "What to eat tonight? is an interactive random food picker designed for the indecisive. Whether you're an office worker trying to organize a group lunch, a couple who can't agree on a dinner spot, or a hungry college student at midnight — just tap \"Spin Now\" and our physics-based roulette wheel will randomly pick your next meal!",
-    seoBody2b: "Our food database covers twelve of the most popular cuisine types, including: comforting hot pot, juicy steak, light Japanese cuisine, elegant Western dining, budget-friendly home cooking, guilt-free fast food, and sizzling BBQ. There's always something to satisfy your cravings!",
+    seoBody2b: "Our food database covers twenty of the most popular cuisine types, including: comforting hot pot, juicy steak, light Japanese cuisine, elegant Western dining, budget-friendly home cooking, exotic Thai and Vietnamese flavors, guilt-free fast food, and sizzling BBQ. There's always something to satisfy your cravings!",
     seoTitle3: "Map integration for one-tap navigation",
     seoBody3: "Wondering where to find your chosen cuisine nearby? Don't worry! When the roulette stops, the app generates a custom Google Maps deep link. Just tap the \"Search nearby\" button to instantly open your maps app, pinpointing quality restaurants near you that match the selected food type. From inspiration to navigation in under 5 seconds — the smoothest, friction-free dining decision experience.",
     seoTitle4: "Why do you need this tool?",
     seoBody4: "Psychology research shows that reducing trivial daily decisions helps preserve cognitive energy, letting you focus on what truly matters in work and life. Hand over the annoying \"what to eat\" question to our food roulette — all you need to do is enjoy the meal! Bookmark this site now and let every mealtime be filled with exciting surprises!",
+    guideTitle: "How to use the Food Roulette?",
+    guideSteps: [
+      { title: "Tap \"Spin Now\"", body: "Press the golden button and the wheel starts spinning. Each result is random, determined by a physics-based deceleration simulation." },
+      { title: "Wait for fate to decide", body: "The wheel gradually slows down with satisfying tick sounds, eventually landing on a food category. You'll hear real audio feedback throughout." },
+      { title: "Find nearby restaurants", body: "Once revealed, tap \"Search nearby\" and Google Maps will automatically locate the best restaurants of that type near you." },
+    ],
+    tipsTitle: "Food Fun Facts",
+    tips: [
+      { icon: "chef", title: "Try something new", body: "Studies show that trying new foods triggers dopamine release in the brain, bringing more happiness. Next time the wheel lands on something unfamiliar — go for it!" },
+      { icon: "clock", title: "Best times to eat", body: "Nutritionists recommend having lunch between 12:00-13:00 and dinner between 18:00-19:30. Regular meal times help with digestion and metabolism." },
+      { icon: "users", title: "The art of group dining", body: "Can't agree on where to eat with friends? Have everyone spin the wheel once — the most common result wins! Democracy through randomness." },
+    ],
+    faqTitle: "Frequently Asked Questions",
+    faqs: [
+      { q: "Is this tool free to use?", a: "Absolutely! What to eat tonight? is a free, open-source tool. Use it as many times as you want — no sign-up or login required." },
+      { q: "Are the results truly random?", a: "Yes. We use JavaScript's random number generator combined with physics-simulated friction deceleration. Each spin's result is unpredictable." },
+      { q: "Can I customize the food categories?", a: "We currently offer 20 curated cuisine types. Custom wheel functionality is in development — stay tuned for future updates!" },
+      { q: "Why don't I see restaurants after searching?", a: "Search results are provided by Google Maps and depend on your location. In remote areas, some cuisine types may not have nearby options." },
+      { q: "Does this website collect my personal data?", a: "No. We don't require account registration and never store your location or personal information. See our Privacy Policy for details." },
+    ],
     mapPrefix: "",
     footerAbout: "About Us",
     footerContact: "Contact Us",
     footerPrivacy: "Privacy Policy",
+    footerTips: "Food Tips",
     footerRights: "All rights reserved",
     footerDesc: "A food decision tool built for the indecisive",
   },
-};
-
-// --- 廣告版位元件 ---
-interface AdSlotProps {
-  type?: 'banner' | 'vertical' | 'box';
-  placement?: string;
-  onClose?: () => void;
-  isLive?: boolean;
-  adClient?: string;
-  adSlotId?: string;
-  locale?: Locale;
-}
-
-const AdSlot = ({ type = 'banner', placement = '', onClose, isLive = false, adClient = '', adSlotId = '', locale = 'zh' }: AdSlotProps) => {
-  const t = UI_TEXT[locale];
-  let sizeClasses = '';
-  if (type === 'banner') sizeClasses = 'w-full max-w-3xl mx-auto h-[60px] sm:h-[90px]';
-  else if (type === 'vertical') sizeClasses = 'w-[120px] lg:w-[160px] h-[400px] lg:h-[500px]';
-  else if (type === 'box') sizeClasses = 'w-full h-[80px] mt-4';
-
-  useEffect(() => {
-    if (isLive && adClient && adSlotId) {
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
-      } catch (e) {
-        console.error("AdSense init failed:", e);
-      }
-    }
-  }, [isLive, adClient, adSlotId]);
-
-  if (isLive) {
-    return (
-      <div className={`relative shrink-0 overflow-hidden flex justify-center items-center bg-gray-900 ${sizeClasses}`}>
-        {onClose && (
-          <button onClick={onClose} className="absolute top-1 left-1 p-1 text-gray-400 hover:text-white bg-gray-800/80 rounded-full transition-colors z-10">
-            <X className="w-3 h-3" />
-          </button>
-        )}
-        <ins className="adsbygoogle"
-             style={{ display: 'block', width: '100%', height: '100%' }}
-             data-ad-client={adClient}
-             data-ad-slot={adSlotId}
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-      </div>
-    );
-  }
-
-  return (
-    <div className={`relative bg-gray-900/60 flex flex-col items-center justify-center overflow-hidden border border-gray-700 rounded-lg shrink-0 ${sizeClasses}`}>
-      <div className="absolute top-1 right-1 px-1 bg-gray-800 rounded text-[10px] text-gray-400">{t.adLabel}</div>
-      {onClose && (
-        <button onClick={onClose} className="absolute top-1 left-1 p-1 text-gray-400 hover:text-white bg-gray-800/80 rounded-full transition-colors z-10">
-          <X className="w-3 h-3" />
-        </button>
-      )}
-      <span className="text-gray-500 font-medium text-sm flex flex-col items-center gap-2 text-center px-2">
-        <Info className="w-4 h-4" />
-        {placement} {t.adSlot}
-      </span>
-      {type === 'banner' && <span className="text-xs text-gray-600 mt-1 text-center hidden sm:block">{t.adBanner}</span>}
-      {type === 'vertical' && <span className="text-xs text-gray-600 mt-1 text-center">{t.adVertical}</span>}
-      {type === 'box' && <span className="text-xs text-gray-600 mt-1 text-center">{t.adBox}</span>}
-    </div>
-  );
 };
 
 // --- 輕量級 Confetti ---
@@ -224,18 +202,12 @@ export default function HomePage() {
   const [result, setResult] = useState<typeof FOOD_CATEGORIES[number] | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
 
-  const [showTopAd, setShowTopAd] = useState(true);
-  const [showBottomAd, setShowBottomAd] = useState(true);
-  const [showLeftAd, setShowLeftAd] = useState(true);
-  const [showRightAd, setShowRightAd] = useState(true);
-
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const angleRef = useRef(0);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const animationFrameRef = useRef<number>(0);
   const localeRef = useRef<Locale>(locale);
 
-  // 同步 locale 到 ref（供 drawWheel 讀取最新值）
   useEffect(() => {
     localeRef.current = locale;
   }, [locale]);
@@ -292,7 +264,6 @@ export default function HomePage() {
       ctx.restore();
     });
 
-    // Center hub
     ctx.beginPath();
     ctx.arc(0, 0, 30, 0, Math.PI * 2);
     ctx.fillStyle = '#1F2937';
@@ -311,7 +282,6 @@ export default function HomePage() {
     ctx.translate(-radius, -radius);
   }, []);
 
-  // --- 初始化 ---
   useEffect(() => {
     const timer = setTimeout(() => {
       setAppState('ready');
@@ -320,14 +290,12 @@ export default function HomePage() {
     return () => clearTimeout(timer);
   }, [drawWheel]);
 
-  // 語言切換時重繪輪盤
   useEffect(() => {
     if (appState === 'ready' && !isSpinning) {
       drawWheel(angleRef.current);
     }
   }, [locale, appState, isSpinning, drawWheel]);
 
-  // --- Web Audio API 音效 ---
   const initAudio = () => {
     if (!audioCtxRef.current) {
       const AC = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
@@ -358,7 +326,6 @@ export default function HomePage() {
     osc.stop(ctx.currentTime + 0.03);
   }, []);
 
-  // --- 旋轉邏輯 ---
   const spinWheel = () => {
     if (isSpinning) return;
     initAudio();
@@ -400,36 +367,36 @@ export default function HomePage() {
     animationFrameRef.current = requestAnimationFrame(animate);
   };
 
-  // --- 語言切換按鈕元件 ---
-  const LanguageSwitcher = () => (
-    <button
-      onClick={() => setLocale(prev => prev === 'zh' ? 'en' : 'zh')}
-      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-600 text-sm text-gray-300 hover:text-white transition-all"
-      aria-label="Switch language"
-    >
-      <Globe className="w-4 h-4" />
-      <span className="font-medium">{locale === 'zh' ? 'EN' : '中文'}</span>
-    </button>
-  );
-
-  const adPlacement = (key: string) => {
-    const map: Record<string, Record<Locale, string>> = {
-      top: { zh: "上方", en: "Top" },
-      bottom: { zh: "下方", en: "Bottom" },
-      left: { zh: "左側", en: "Left" },
-      right: { zh: "右側", en: "Right" },
-      result: { zh: "結果頁", en: "Result" },
-    };
-    return map[key]?.[locale] ?? key;
+  const tipIcons: Record<string, React.ReactNode> = {
+    chef: <ChefHat className="w-6 h-6 text-yellow-500" />,
+    clock: <Clock className="w-6 h-6 text-yellow-500" />,
+    users: <Users className="w-6 h-6 text-yellow-500" />,
   };
 
   return (
     <div className="min-h-[100dvh] bg-gray-950 text-gray-50 font-sans selection:bg-yellow-500/30 flex flex-col overflow-x-hidden relative">
 
-      {/* 右上角語言切換（固定定位，始終可見） */}
-      <div className="fixed top-3 right-3 z-[60]">
-        <LanguageSwitcher />
-      </div>
+      {/* 頂部導航列 */}
+      <nav className="w-full bg-gray-900/95 backdrop-blur-sm border-b border-gray-800 sticky top-0 z-[60]">
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+          <Link href="/" className="text-lg font-bold bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
+            What to eat tonight?
+          </Link>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/tips" className="hidden sm:block text-sm text-gray-400 hover:text-yellow-400 transition-colors">{t.navTips}</Link>
+            <Link href="/about" className="hidden sm:block text-sm text-gray-400 hover:text-yellow-400 transition-colors">{t.navAbout}</Link>
+            <Link href="/contact" className="hidden sm:block text-sm text-gray-400 hover:text-yellow-400 transition-colors">{t.navContact}</Link>
+            <button
+              onClick={() => setLocale(prev => prev === 'zh' ? 'en' : 'zh')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-600 text-sm text-gray-300 hover:text-white transition-all"
+              aria-label="Switch language"
+            >
+              <Globe className="w-4 h-4" />
+              <span className="font-medium">{locale === 'zh' ? 'EN' : '中文'}</span>
+            </button>
+          </div>
+        </div>
+      </nav>
 
       {/* 載入畫面 */}
       {appState === 'loading' && (
@@ -443,82 +410,112 @@ export default function HomePage() {
       {/* 主介面 */}
       <div className={`flex-1 flex flex-col w-full transition-opacity duration-1000 ${appState === 'ready' ? 'opacity-100' : 'opacity-0'}`}>
 
-        {/* 上方橫幅廣告 */}
-        {showTopAd && (
-          <div className="w-full p-3 bg-gray-900 border-b border-gray-800 shrink-0">
-            <AdSlot type="banner" placement={adPlacement('top')} onClose={() => setShowTopAd(false)} locale={locale} />
-          </div>
-        )}
+        {/* 輪盤區域 */}
+        <div className="flex-1 flex flex-col max-w-lg mx-auto w-full relative pb-10 px-4">
+          <header className="py-8 text-center shrink-0">
+            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 bg-clip-text text-transparent drop-shadow-sm">
+              What to eat tonight?
+            </h1>
+            <p className="text-gray-400 mt-3 text-base font-medium">{t.subtitle}</p>
+          </header>
 
-        {/* 核心內容：左右廣告 + 中間輪盤 */}
-        <div className="flex-1 flex flex-row justify-center w-full max-w-7xl mx-auto overflow-hidden">
+          <main className="flex flex-col items-center justify-center relative min-h-[500px]">
+            {/* 指標 */}
+            <div
+              className="absolute top-0 left-1/2 -translate-x-1/2 z-10 w-0 h-0 border-l-[16px] border-l-transparent border-r-[16px] border-r-transparent border-t-[24px] border-t-white"
+              style={{ filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.5))' }}
+            />
 
-          {/* 左側廣告 - md 以上 */}
-          {showLeftAd && (
-            <div className="hidden md:flex flex-col items-center justify-center p-4 border-r border-gray-800/50 shrink-0">
-              <AdSlot type="vertical" placement={adPlacement('left')} onClose={() => setShowLeftAd(false)} locale={locale} />
-            </div>
-          )}
-
-          {/* 中間輪盤 */}
-          <div className="flex-1 flex flex-col max-w-md mx-auto w-full relative pb-10">
-            <header className="py-6 px-4 text-center shrink-0">
-              <h1 className="text-3xl font-extrabold bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 bg-clip-text text-transparent drop-shadow-sm">
-                What to eat tonight?
-              </h1>
-              <p className="text-gray-400 mt-2 text-sm font-medium">{t.subtitle}</p>
-            </header>
-
-            <main className="flex-1 flex flex-col items-center justify-center p-4 relative min-h-[400px]">
-
-              {/* 指標 */}
-              <div
-                className="absolute top-4 left-1/2 -translate-x-1/2 z-10 w-0 h-0 border-l-[16px] border-l-transparent border-r-[16px] border-r-transparent border-t-[24px] border-t-white"
-                style={{ filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.5))' }}
+            {/* Canvas 輪盤 */}
+            <div className="relative flex justify-center w-full mt-4">
+              <canvas
+                ref={canvasRef}
+                className={`rounded-full shadow-2xl transition-transform ${isSpinning ? '' : 'hover:scale-105'}`}
+                style={{ boxShadow: '0 0 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.1)' }}
               />
-
-              {/* Canvas 輪盤 */}
-              <div className="relative flex justify-center w-full">
-                <canvas
-                  ref={canvasRef}
-                  className={`rounded-full shadow-2xl transition-transform ${isSpinning ? '' : 'hover:scale-105'}`}
-                  style={{ boxShadow: '0 0 40px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.1)' }}
-                />
-              </div>
-
-              {/* CTA 按鈕 */}
-              <button
-                onClick={spinWheel}
-                disabled={isSpinning}
-                className={`mt-10 px-10 py-4 rounded-full text-xl font-bold transition-all transform active:scale-95 shadow-xl ${
-                  isSpinning
-                    ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-b from-yellow-400 to-orange-500 text-gray-900 hover:shadow-orange-500/50 hover:-translate-y-1'
-                }`}
-              >
-                {isSpinning ? (
-                  <span className="flex items-center gap-2">
-                    <RotateCw className="animate-spin w-6 h-6" /> {t.spinning}
-                  </span>
-                ) : (
-                  <span className="flex items-center gap-2 tracking-wide">
-                    <Utensils className="w-6 h-6" /> {t.spinBtn}
-                  </span>
-                )}
-              </button>
-            </main>
-          </div>
-
-          {/* 右側廣告 - md 以上 */}
-          {showRightAd && (
-            <div className="hidden md:flex flex-col items-center justify-center p-4 border-l border-gray-800/50 shrink-0">
-              <AdSlot type="vertical" placement={adPlacement('right')} onClose={() => setShowRightAd(false)} locale={locale} />
             </div>
-          )}
+
+            {/* CTA 按鈕 */}
+            <button
+              onClick={spinWheel}
+              disabled={isSpinning}
+              className={`mt-10 px-10 py-4 rounded-full text-xl font-bold transition-all transform active:scale-95 shadow-xl ${
+                isSpinning
+                  ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                  : 'bg-gradient-to-b from-yellow-400 to-orange-500 text-gray-900 hover:shadow-orange-500/50 hover:-translate-y-1'
+              }`}
+            >
+              {isSpinning ? (
+                <span className="flex items-center gap-2">
+                  <RotateCw className="animate-spin w-6 h-6" /> {t.spinning}
+                </span>
+              ) : (
+                <span className="flex items-center gap-2 tracking-wide">
+                  <Utensils className="w-6 h-6" /> {t.spinBtn}
+                </span>
+              )}
+            </button>
+          </main>
         </div>
 
+        {/* 使用指南區塊 */}
+        <section className="w-full bg-gray-900/50 border-t border-gray-800 py-16 px-6">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-center text-gray-100 mb-10 flex items-center justify-center gap-3">
+              <BookOpen className="w-6 h-6 text-yellow-500" /> {t.guideTitle}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {t.guideSteps.map((step, i) => (
+                <div key={i} className="bg-gray-800/50 border border-gray-700/50 rounded-2xl p-6 text-center">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-b from-yellow-400 to-orange-500 text-gray-900 font-bold text-xl flex items-center justify-center mx-auto mb-4">
+                    {i + 1}
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-200 mb-2">{step.title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">{step.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 美食小知識區塊 */}
+        <section className="w-full bg-gray-950 border-t border-gray-800 py-16 px-6">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-center text-gray-100 mb-10 flex items-center justify-center gap-3">
+              <Lightbulb className="w-6 h-6 text-yellow-500" /> {t.tipsTitle}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {t.tips.map((tip, i) => (
+                <div key={i} className="bg-gray-900/80 border border-gray-800 rounded-2xl p-6">
+                  <div className="mb-4">{tipIcons[tip.icon]}</div>
+                  <h3 className="text-lg font-bold text-gray-200 mb-2">{tip.title}</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">{tip.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 所有料理類型一覽 */}
+        <section className="w-full bg-gray-900/30 border-t border-gray-800 py-16 px-6">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold text-center text-gray-100 mb-10 flex items-center justify-center gap-3">
+              <Utensils className="w-6 h-6 text-yellow-500" /> {locale === 'zh' ? '20 種料理類型一覽' : '20 Cuisine Types at a Glance'}
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {FOOD_CATEGORIES.map((cat) => (
+                <div key={cat.id} className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 text-center hover:border-yellow-500/50 transition-colors">
+                  <div className="w-3 h-3 rounded-full mx-auto mb-2" style={{ backgroundColor: cat.color }} />
+                  <h3 className="font-bold text-gray-200 text-sm">{cat.name[locale]}</h3>
+                  <p className="text-gray-500 text-xs mt-1">{cat.tag[locale]}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* SEO 文章區塊 */}
-        <section className="w-full bg-gray-900/30 border-t border-gray-800 py-12 px-6">
+        <section className="w-full bg-gray-950 border-t border-gray-800 py-16 px-6">
           <article className="max-w-3xl mx-auto space-y-8 text-gray-400 text-sm md:text-base leading-relaxed">
             <div>
               <h2 className="text-xl font-bold text-gray-200 mb-3 flex items-center gap-2">
@@ -526,7 +523,6 @@ export default function HomePage() {
               </h2>
               <p>{t.seoBody1}</p>
             </div>
-
             <div>
               <h2 className="text-xl font-bold text-gray-200 mb-3 flex items-center gap-2">
                 <RotateCw className="w-5 h-5 text-yellow-500" /> {t.seoTitle2}
@@ -534,14 +530,12 @@ export default function HomePage() {
               <p>{t.seoBody2a}</p>
               <p className="mt-2">{t.seoBody2b}</p>
             </div>
-
             <div>
               <h2 className="text-xl font-bold text-gray-200 mb-3 flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-yellow-500" /> {t.seoTitle3}
               </h2>
               <p>{t.seoBody3}</p>
             </div>
-
             <div>
               <h2 className="text-xl font-bold text-gray-200 mb-3 flex items-center gap-2">
                 <Star className="w-5 h-5 text-yellow-500" /> {t.seoTitle4}
@@ -551,30 +545,40 @@ export default function HomePage() {
           </article>
         </section>
 
-        {/* 下方橫幅廣告 */}
-        {showBottomAd && (
-          <div className="w-full p-3 pb-6 bg-gray-900 border-t border-gray-800 shrink-0">
-            <AdSlot type="banner" placement={adPlacement('bottom')} onClose={() => setShowBottomAd(false)} locale={locale} />
+        {/* FAQ 區塊 */}
+        <section className="w-full bg-gray-900/30 border-t border-gray-800 py-16 px-6">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl font-bold text-center text-gray-100 mb-10 flex items-center justify-center gap-3">
+              <HelpCircle className="w-6 h-6 text-yellow-500" /> {t.faqTitle}
+            </h2>
+            <div className="space-y-4">
+              {t.faqs.map((faq, i) => (
+                <details key={i} className="bg-gray-800/50 border border-gray-700/50 rounded-xl group">
+                  <summary className="px-6 py-4 cursor-pointer text-gray-200 font-medium hover:text-yellow-400 transition-colors list-none flex items-center justify-between">
+                    {faq.q}
+                    <span className="text-gray-500 group-open:rotate-180 transition-transform">&#9662;</span>
+                  </summary>
+                  <div className="px-6 pb-4 text-gray-400 text-sm leading-relaxed">
+                    {faq.a}
+                  </div>
+                </details>
+              ))}
+            </div>
           </div>
-        )}
+        </section>
 
         {/* 頁尾導航 */}
-        <footer className="w-full bg-gray-900 border-t border-gray-800 py-8 px-6">
-          <div className="max-w-3xl mx-auto flex flex-col items-center gap-6">
+        <footer className="w-full bg-gray-900 border-t border-gray-800 py-10 px-6">
+          <div className="max-w-4xl mx-auto flex flex-col items-center gap-6">
             <h2 className="text-lg font-bold bg-gradient-to-r from-red-500 via-orange-400 to-yellow-400 bg-clip-text text-transparent">
               What to eat tonight?
             </h2>
-            <p className="text-gray-500 text-sm text-center">{t.footerDesc}</p>
+            <p className="text-gray-500 text-sm text-center max-w-md">{t.footerDesc}</p>
             <nav className="flex flex-wrap justify-center gap-6 text-sm">
-              <Link href="/about" className="text-gray-400 hover:text-yellow-400 transition-colors">
-                {t.footerAbout}
-              </Link>
-              <Link href="/contact" className="text-gray-400 hover:text-yellow-400 transition-colors">
-                {t.footerContact}
-              </Link>
-              <Link href="/privacy" className="text-gray-400 hover:text-yellow-400 transition-colors">
-                {t.footerPrivacy}
-              </Link>
+              <Link href="/tips" className="text-gray-400 hover:text-yellow-400 transition-colors">{t.footerTips}</Link>
+              <Link href="/about" className="text-gray-400 hover:text-yellow-400 transition-colors">{t.footerAbout}</Link>
+              <Link href="/contact" className="text-gray-400 hover:text-yellow-400 transition-colors">{t.footerContact}</Link>
+              <Link href="/privacy" className="text-gray-400 hover:text-yellow-400 transition-colors">{t.footerPrivacy}</Link>
             </nav>
             <div className="w-16 h-px bg-gray-800" />
             <p className="text-gray-600 text-xs">
@@ -632,8 +636,6 @@ export default function HomePage() {
                 {t.tryAgain}
               </button>
             </div>
-
-            <AdSlot type="box" placement={adPlacement('result')} locale={locale} />
           </div>
         </div>
       )}
